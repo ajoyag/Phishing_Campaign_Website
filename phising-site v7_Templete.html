@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Important Security Update Required</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background-color: #f5f5f5;
+            padding: 20px;
+        }
+        .email-container {
+            max-width: 600px;
+            margin: 40px auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        .email-header {
+            background: linear-gradient(135deg, #1a73e8, #4285f4);
+            color: white;
+            padding: 20px;
+        }
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .sender-info {
+            display: flex;
+            align-items: center;
+            margin-top: 15px;
+        }
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #1a73e8;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        .sender-details {
+            flex: 1;
+        }
+        .sender-name {
+            font-weight: bold;
+        }
+        .sender-email {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        .email-content {
+            padding: 30px;
+        }
+        .subject {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #202124;
+        }
+        .message {
+            line-height: 1.6;
+            color: #5f6368;
+            margin-bottom: 25px;
+        }
+        .urgent-badge {
+            background: #fce8e6;
+            color: #d93025;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 15px;
+        }
+        .security-card {
+            background: #f8f9fa;
+            border-left: 4px solid #1a73e8;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 4px 4px 0;
+        }
+        .btn-container {
+            text-align: center;
+            margin: 30px 0;
+        }
+        .cta-button {
+            background: linear-gradient(135deg, #1a73e8, #4285f4);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 4px;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+        .footer {
+            background: #f1f3f4;
+            padding: 20px;
+            text-align: center;
+            color: #5f6368;
+            font-size: 12px;
+        }
+        .warning {
+            color: #d93025;
+            font-weight: bold;
+        }
+        .timer {
+            color: #d93025;
+            font-weight: bold;
+            font-size: 18px;
+            text-align: center;
+            margin: 10px 0;
+        }
+        .countdown {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 15px 0;
+        }
+        .time-unit {
+            background: #fce8e6;
+            padding: 10px;
+            border-radius: 4px;
+            min-width: 60px;
+        }
+        .popup {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        .popup.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+        .popup-content {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            max-width: 500px;
+            text-align: center;
+            transform: translateY(-20px);
+            transition: transform 0.3s ease;
+        }
+        .popup.active .popup-content {
+            transform: translateY(0);
+        }
+        .popup h2 {
+            color: #d93025;
+            margin-bottom: 15px;
+        }
+        .popup p {
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        .login-form {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            max-width: 400px;
+            width: 90%;
+            margin: 20px auto;
+        }
+        .form-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .form-header h2 {
+            color: #1a73e8;
+            margin-bottom: 10px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #5f6368;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        .form-group input:focus {
+            outline: none;
+            border-color: #1a73e8;
+            box-shadow: 0 0 0 2px rgba(26, 115, 232, 0.2);
+        }
+        .form-group input.invalid {
+            border-color: #d93025;
+            box-shadow: 0 0 0 2px rgba(217, 48, 37, 0.2);
+        }
+        .submit-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #1a73e8, #4285f4);
+            color: white;
+            border: none;
+            padding: 12px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+        .submit-btn:disabled {
+            background: #cccccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        .error-message {
+            color: #d93025;
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 999;
+        }
+        .overlay.active {
+            display: flex;
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <div class="email-header">
+            <div class="logo">IT SECURITY ALERT</div>
+            <div class="sender-info">
+                <div class="avatar">IT</div>
+                <div class="sender-details">
+                    <div class="sender-name">IT Security Team</div>
+                    <div class="sender-email">security.0neIT@mycompany.com</div>
+                </div>
+            </div>
+        </div>
+        <div class="email-content">
+            <div class="urgent-badge">URGENT ACTION REQUIRED</div>
+            <div class="subject">Your Account Security Has Been Compromised!</div>
+            <div class="message">
+                <p>Dear Employee,</p>
+                <br>
+                <p>We have detected suspicious activity on your account that requires immediate attention.</p>
+                <br>
+                <p><span class="warning">⚠️ SECURITY ALERT:</span> Multiple failed login attempts were detected from an unfamiliar location. Your account may have been compromised.</p>
+                <div class="security-card">
+                    <p><strong>Activity Details:</strong></p>
+                    <p>• Login attempts: 12 failed attempts</p>
+                    <p>• Location: <span id="ipAddress">Unknown IP address</span></p>
+                    <p>• Time: Today at <span id="currentTime">3:45 AM</span></p>
+                </div>
+                <p>To protect your account and prevent unauthorized access, you must verify your identity immediately.</p>
+                <div class="timer">Action Required Within:</div>
+                <div class="countdown">
+                    <div class="time-unit">05<br><span style="font-size:12px">MINUTES</span></div>
+                    <div class="time-unit">32<br><span style="font-size:12px">SECONDS</span></div>
+                </div>
+                <p>Click the button below to secure your account now:</p>
+                <div class="btn-container">
+                    <button class="cta-button" id="secureBtn">SECURE MY ACCOUNT NOW</button>
+                </div>
+                <p>If you do not verify your account within the time limit, your access will be permanently suspended.</p>
+            </div>
+        </div>
+        <div class="footer">
+            <p>This is an automated security message from Company Internal Systems</p>
+            <p>© 2025 ajoyag. All rights reserved.</p>
+        </div>
+    </div>
+    <div class="overlay" id="loginOverlay">
+        <div class="login-form">
+            <div class="form-header">
+                <h2>Verify Your Identity</h2>
+                <p>Please enter your credentials to secure your account</p>
+            </div>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="username">Email</label>
+                    <input type="email" id="username" name="username" required placeholder="your.name@mycompany.com">
+                    <div class="error-message" id="emailError">Please enter a valid mycompany email address</div>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <button type="submit" class="submit-btn" id="submitBtn">SECURE ACCOUNT</button>
+            </form>
+        </div>
+    </div>
+    <div class="popup" id="phishingPopup">
+        <div class="popup-content">
+            <h2>🛑 PHISHING SIMULATION</h2>
+            <p>This was a simulated phishing email for security training purposes.</p>
+            <p>You just experienced a common phishing technique. In a real attack, clicking that button could have compromised your account.</p>
+            <p><strong>Key warning signs:</strong></p>
+            <ul style="text-align: left; margin: 15px 0; line-height: 1.8;">
+                <li>Urgent language ("immediate action required")</li>
+                <li>Fake countdown timer to create panic</li>
+                <li>Suspicious sender email address</li>
+                <li>Threats of account suspension</li>
+                <li>Requests for login credentials on unfamiliar pages</li>
+            </ul>
+            <button class="cta-button" onclick="closePopup()">I Understand - Close</button>
+        </div>
+    </div>
+    <script>
+        // Get device information
+        function getDeviceInfo() {
+            // Get current time
+            const now = new Date();
+            const timeString = now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+            document.getElementById('currentTime').textContent = timeString;
+            
+            // Generate a random IP address for demonstration
+            const randomIP = generateRandomIP();
+            document.getElementById('ipAddress').textContent = randomIP;
+        }
+        
+        // Generate a random IP address
+        function generateRandomIP() {
+            const octets = [];
+            for (let i = 0; i < 4; i++) {
+                octets.push(Math.floor(Math.random() * 256));
+            }
+            return octets.join('.');
+        }
+        
+        // Countdown timer
+        let minutes = 5;
+        let seconds = 32;
+        function updateTimer() {
+            const timerElements = document.querySelectorAll('.time-unit');
+            if (timerElements.length >= 2) {
+                timerElements[0].innerHTML = `${minutes.toString().padStart(2, '0')}<br><span style="font-size:12px">MINUTES</span>`;
+                timerElements[1].innerHTML = `${seconds.toString().padStart(2, '0')}<br><span style="font-size:12px">SECONDS</span>`;
+            }
+            if (seconds > 0) {
+                seconds--;
+            } else if (minutes > 0) {
+                minutes--;
+                seconds = 59;
+            } else {
+                // Timer expired
+                return;
+            }
+            setTimeout(updateTimer, 1000);
+        }
+        
+        // Email validation
+        function validateEmail(email) {
+            const emailRegex = /^[^\s@]+@mycompany\.com$/;
+            return emailRegex.test(email);
+        }
+        
+        // Initialize device info and timer
+        getDeviceInfo();
+        updateTimer();
+        
+        // Button click handler - show login form
+        document.getElementById('secureBtn').addEventListener('click', function() {
+            document.getElementById('loginOverlay').classList.add('active');
+        });
+        
+        // Email input validation
+        const emailInput = document.getElementById('username');
+        const emailError = document.getElementById('emailError');
+        const submitBtn = document.getElementById('submitBtn');
+        emailInput.addEventListener('input', function() {
+            const email = this.value;
+            if (email && !validateEmail(email)) {
+                this.classList.add('invalid');
+                emailError.style.display = 'block';
+                submitBtn.disabled = true;
+            } else {
+                this.classList.remove('invalid');
+                emailError.style.display = 'none';
+                submitBtn.disabled = false;
+            }
+        });
+        
+        // Form submit handler - show phishing popup
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = document.getElementById('username').value;
+            if (validateEmail(email)) {
+                document.getElementById('loginOverlay').classList.remove('active');
+                document.getElementById('phishingPopup').classList.add('active');
+            }
+        });
+        
+        // Close popup
+        function closePopup() {
+            document.getElementById('phishingPopup').classList.remove('active');
+        }
+        
+        // Also close if clicking outside
+        document.getElementById('phishingPopup').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closePopup();
+            }
+        });
+    </script>
+</body>
+</html>
